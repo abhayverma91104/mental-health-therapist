@@ -1,12 +1,19 @@
 import os
+from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
+load_dotenv()
+
 class RAGEngine:
     def __init__(self):
-        self.embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+        api_key = os.getenv("GEMINI_API_KEY")
+        self.embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/text-embedding-004",
+            google_api_key=api_key
+        )
         self.persist_directory = "./vector_store"
         self.vector_db = None
 

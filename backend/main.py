@@ -48,7 +48,7 @@ async def chat_endpoint(
 
         # 1. Handle RAG Context
         query_for_rag = message if message else "emotional distress"
-        context = rag.query_knowledge(query_for_rag)
+        context = rag.get_context(query_for_rag)
         prompt_parts.append(f"CLINICAL CONTEXT:\n{context}")
 
         # 2. Handle Text Input
