@@ -89,30 +89,6 @@ npm run dev
 
 Then open your browser and navigate to the frontend URL (usually `http://localhost:5173`)
 
-## Project Structure
-
-```
-mental-health-therapist/
-├── backend/
-│   ├── main.py              # FastAPI server
-│   ├── requirements.txt     # Python dependencies
-│   ├── .env                 # Environment variables (API keys)
-│   ├── knowledge_base/      # PDF documents for RAG
-│   └── services/
-│       ├── rag_engine.py    # RAG implementation
-│       └── ai_logic.py      # AI logic (optional)
-├── frontend/
-│   ├── src/
-│   │   ├── app.jsx          # Main React component
-│   │   ├── main.jsx         # React entry point
-│   │   ├── index.css        # Global styles
-│   │   └── components/
-│   │       ├── ChatInterface.jsx
-│   │       └── VoiceRecorder.jsx
-│   └── package.json         # Node dependencies
-└── README.md
-```
-
 ## API Endpoints
 
 - `POST /chat` - Send a message or audio file to the AI
