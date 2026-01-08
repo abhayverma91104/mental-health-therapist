@@ -39,8 +39,10 @@ async def chat_endpoint(
     audio: UploadFile = File(None)
 ):
     try:
+        # Use model from env or default to gemini-1.5-flash (more stable free tier)
+        model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
         model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash", 
+            model_name=model_name, 
             system_instruction=SYSTEM_PROMPT
         )
         
@@ -70,7 +72,20 @@ async def chat_endpoint(
         return {"reply": response.text}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        error_msg = str(e)
+        # Provide user-friendly error messages
+        if "quota" in error_msg.lower() or "429" in error_msg:
+            raise HTTPException(
+                status_code=429, 
+                detail="API quota exceeded. Please check your Gemini API key, billing settings, or try again later."
+            )
+        elif "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid API key. Please check your GEMINI_API_KEY in the .env file."
+            )
+        else:
+            raise HTTPException(status_code=500, detail=f"Error: {error_msg}")
 
 if __name__ == "__main__":
     import uvicorn
