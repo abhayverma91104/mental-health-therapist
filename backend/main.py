@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from services.rag_engine import RAGEngine
 from services.ai_logic import AILogic
 import shutil
+import uuid
 
 load_dotenv()
 app = FastAPI()
@@ -38,7 +39,8 @@ async def chat_endpoint(
 
         # 2. Handle Audio Input
         if audio:
-            temp_path = f"temp_{audio.filename}"
+            unique_id = uuid.uuid4().hex
+            temp_path = f"temp_{unique_id}_{audio.filename}"
             with open(temp_path, "wb") as buffer:
                 shutil.copyfileobj(audio.file, buffer)
 
